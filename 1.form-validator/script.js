@@ -89,3 +89,4 @@ email.addEventListener('input', function(e) {
 password2.addEventListener('input', function(e) {
   checkPasswordsMatch(password,password2);
 });
+
