@@ -1,9 +1,12 @@
 export default class Nodes {
-    constructor({$app,initialState,onClick}) {
+    constructor({$app,initialState,onClick,onBackClick}) {
         this.state = initialState;
         this.onClick = onClick;
+        this.onBackClick = onBackClick;
         this.$target = document.createElement('ul');
         $app.appendChild(this.$target);
+
+        this.render();
     }
 
 
@@ -26,13 +29,16 @@ export default class Nodes {
                 `
             }).join('');
 
-            this.$target.innerHTML = !this.state.isRoot ? `div class="Node"><img
-            src="/assets/prev.png"></div>${nodesTemplate}` : nodesTemplate;
+            this.$target.innerHTML = !this.state.isRoot ? `<div class="Node"><img
+            src="./assets/prev.png"></div>${nodesTemplate}` : nodesTemplate;
         }
 
         this.$target.querySelectorAll('.Node').forEach($node => {
             $node.addEventListener('click', (e) => {
                 const {nodeId} = e.target.dataset;
+                if (!nodeId) {
+                    this.onBackClick();
+                }
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId);
 
                 if (selectedNode) {
@@ -40,10 +46,5 @@ export default class Nodes {
                 }
             });
         });
-
-
-
-
-
     }
 }
